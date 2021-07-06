@@ -18,11 +18,14 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE, _In_ LPWSTR, _
 	}
 
 	// Main message loop
-	MSG msg = { 0 };
-	while (GetMessage(&msg, nullptr, 0, 0))
+	MSG msg = {};
+	while (msg.message != WM_QUIT)
 	{
-		TranslateMessage(&msg);
-		DispatchMessage(&msg);
+		if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
+		{
+			TranslateMessage(&msg);
+			DispatchMessage(&msg);
+		}
 	}
 
 	return (int)msg.wParam;
