@@ -19,6 +19,11 @@ public:
 	void OnDestroy();
 
 private:
+	HRESULT LoadPipeline();
+	HRESULT LoadAssets();
+	HRESULT PopulateCommandList();
+	HRESULT WaitForPreviousFrame();
+
 	const static UINT FrameCount = 2;
 
 	Microsoft::WRL::ComPtr<ID3D12Device> m_device;
@@ -36,10 +41,5 @@ private:
 
 	UINT64 m_fenceValue;
 	HANDLE m_fenceEvent;
-
-	HRESULT LoadPipeline();
-	HRESULT LoadAssets();
-	HRESULT PopulateCommandList();
-	HRESULT WaitForPreviousFrame();
 
 };

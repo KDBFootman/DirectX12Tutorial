@@ -2,6 +2,7 @@
 #include "Device.h"
 
 
+//----------------------------------------------------------------------------------------------------
 Device::Device(HWND hWnd)
 	:m_device(nullptr)
 	,m_commandQueue(nullptr)
@@ -21,12 +22,14 @@ Device::Device(HWND hWnd)
 }
 
 
+//----------------------------------------------------------------------------------------------------
 Device::~Device()
 {
 
 }
 
 
+//----------------------------------------------------------------------------------------------------
 void Device::OnInit()
 {
 	LoadPipeline();
@@ -34,12 +37,14 @@ void Device::OnInit()
 }
 
 
+//----------------------------------------------------------------------------------------------------
 void Device::OnUpdate()
 {
 
 }
 
 
+//----------------------------------------------------------------------------------------------------
 void Device::OnRender()
 {
 	// Record all the commands we need to render the scene into the command list.
@@ -59,6 +64,7 @@ void Device::OnRender()
 }
 
 
+//----------------------------------------------------------------------------------------------------
 void Device::OnDestroy()
 {
 	WaitForPreviousFrame();
@@ -67,6 +73,7 @@ void Device::OnDestroy()
 }
 
 
+//----------------------------------------------------------------------------------------------------
 HRESULT Device::LoadPipeline()
 {
 	HRESULT hr;
@@ -181,8 +188,6 @@ HRESULT Device::LoadPipeline()
 	// Create frame resources.
 	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle = {};
 	rtvHandle.ptr = m_rtvHeap->GetCPUDescriptorHandleForHeapStart().ptr;
-	//rtvHandle.ptr = SIZE_T(&(m_descriptorHeap->GetCPUDescriptorHandleForHeapStart()));
-	//D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle(m_descriptorHeap->GetCPUDescriptorHandleForHeapStart());
 
 	for (UINT n = 0; n < FrameCount; n++)
 	{
@@ -206,6 +211,7 @@ HRESULT Device::LoadPipeline()
 }
 
 
+//----------------------------------------------------------------------------------------------------
 HRESULT Device::LoadAssets()
 {
 	HRESULT hr;
@@ -242,6 +248,7 @@ HRESULT Device::LoadAssets()
 }
 
 
+//----------------------------------------------------------------------------------------------------
 HRESULT Device::PopulateCommandList()
 {
 	HRESULT hr;
@@ -292,6 +299,7 @@ HRESULT Device::PopulateCommandList()
 }
 
 
+//----------------------------------------------------------------------------------------------------
 HRESULT Device::WaitForPreviousFrame()
 {
 	HRESULT hr;

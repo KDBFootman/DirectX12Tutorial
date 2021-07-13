@@ -8,14 +8,25 @@
 #include <Device.h>
 
 
+//----------------------------------------------------------------------------------------------------
+// Global Variables
+//----------------------------------------------------------------------------------------------------
 HWND g_hWnd = nullptr;
 
 std::unique_ptr<Device> g_device;
 
-HRESULT InitWindow(HINSTANCE hInstance, int nCmdShow);
+
+//----------------------------------------------------------------------------------------------------
+// Forward declarations
+//----------------------------------------------------------------------------------------------------
 LRESULT CALLBACK WndProc(HWND hWnd,UINT message,WPARAM wParam, LPARAM lParam);
+HRESULT InitWindow(HINSTANCE hInstance, int nCmdShow);
 
 
+//----------------------------------------------------------------------------------------------------
+// Entry point to the program. Initializes everything and goes into a message processing
+// loop. Idle time is used to render the scene.
+//----------------------------------------------------------------------------------------------------
 int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE, _In_ LPWSTR, _In_ int nCmdShow)
 {
 	// Initailize window
@@ -40,7 +51,32 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE, _In_ LPWSTR, _
 	return (int)msg.wParam;
 }
 
+//----------------------------------------------------------------------------------------------------
+// Called every time the application receives a message
+//----------------------------------------------------------------------------------------------------
+LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+{
 
+	switch (message)
+	{
+	case WM_PAINT:
+		g_device->OnUpdate();
+		g_device->OnRender();
+		break;
+
+	case WM_DESTROY:
+		PostQuitMessage(0);
+		break;
+
+	default:
+		return DefWindowProc(hWnd, message, wParam, lParam);
+	}
+
+	return 0;
+}
+
+
+// ----------------------------------------------------------------------------------------------------
 HRESULT InitWindow(HINSTANCE hInstance, int nCmdShow)
 {
 	HRESULT result = S_OK;
@@ -78,26 +114,4 @@ HRESULT InitWindow(HINSTANCE hInstance, int nCmdShow)
 	ShowWindow(g_hWnd, nCmdShow);
 
 	return S_OK;
-}
-
-
-LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
-{
-
-	switch (message)
-	{
-	case WM_PAINT:
-		g_device->OnUpdate();
-		g_device->OnRender();
-		break;
-
-	case WM_DESTROY:
-		PostQuitMessage(0);
-		break;
-
-	default:
-		return DefWindowProc(hWnd, message, wParam, lParam);
-	}
-
-	return 0;
 }
